@@ -17,4 +17,9 @@ Assumes use with Heroku
 - SSHPASS - password for user
 - SSHPORT - port to connect on (default: 22)
 - ARKSTARTSCRIPT - name of ARK script. currently assumes located in user home directory
-- ARKPROCESSNAME - name of ARK process, left as variable for easy updating in case server process name is changed by devs (default: ShooterGame)
+- ARKPROCESSNAME - name of ARK process, left as variable for easy updating in case server process name is changed by devs (default: ShooterGameServ)
+
+## Example Start Scripts
+- ark_server.sh - ARK script to run located in user home directory and/or parent directory of `steamcmd`
+- ark_update.sh - login to steam and check updates for ARK (place in `steamcmd`)
+- server_start.sh - example command to start server (place in `steamcmd/ark/ShooterGame/Binaries/Linux/`)

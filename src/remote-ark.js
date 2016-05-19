@@ -1,8 +1,5 @@
 /**
 *  Remotely control your ARK server over SSH using Hubot
-*
-*
-*
 */
 
 var SSH = require('simple-ssh');
@@ -16,7 +13,7 @@ var sshOptions = {
 
 
 module.exports = function(robot) {
-  var appToCheck = process.env.ARKPROCESSNAME || 'ShooterGame';
+  var appToCheck = process.env.ARKPROCESSNAME || 'ShooterGameServ';
 
   /**
   * List available commands
@@ -35,19 +32,19 @@ module.exports = function(robot) {
     ssh.exec('pgrep ' + appToCheck, {
       exit: function(code, stdout) {
         if (code === 0) {
-          res.reply('Server is already running as process ' + stdout);
+          res.reply('Server is already running.');
           return false;
         }
         if (code === 1) {
-          res.reply('Starting server! (It takes approximately 4-6 minutes for the server to finish booting.)');
+          res.reply('Starting server!');
         }
       }
     })
     .exec('./'+process.env.ARKSTARTSCRIPT, {
       exit: function(code, stdout) {
-        res.reply(process.env.ARKSTARTSCRIPT);
+        res.reply('Running ' + process.env.ARKSTARTSCRIPT);
         res.reply(stdout);
-        res.reply('start code: ' + code);
+        res.reply('Server started. It takes approximately 4-6 minutes for the server to finish booting.');
       }
     })
     .start();
@@ -60,18 +57,11 @@ module.exports = function(robot) {
   robot.respond(/ark\sstop/i, function(res) {
 
     var ssh = new SSH(sshOptions);
-    var pid;
 
     ssh.exec('pgrep ' + appToCheck, {
-      out: function(stdout) {
-        if(stdout) {
-          res.reply('BRING ' + stdout + ' DOWN LEGOLAS!!!');
-          pid = stdout;
-        }
-      },
       exit: function(code, stdout) {
         if (code === 0) {
-          res.reply('Server shutdown');
+          res.reply('Server is shutting down');
         }
         if (code === 1) {
           res.reply('Server is not running');
@@ -79,13 +69,18 @@ module.exports = function(robot) {
         }
       }
     })
-    .exec('kill -s TERM ' + pid, {
-      exit: function(code, stdout) {
-        res.reply('server shutdown status' + code);
-        res.reply(stdout);
+    .exec('kill $(pgrep '+ appToCheck + ')', {
+      exit: function(code, stdout, stderr) {
+        if (code === 0) {
+          res.reply('Server is shutdown');
+        }
+      },
+      err: function(stderr) {
+        res.reply('There was a problem shutting down the server. Error code: ' + stderr);
       }
     })
     .start();
+
   });
 
   /**
@@ -98,7 +93,7 @@ module.exports = function(robot) {
     ssh.exec('pgrep ' + appToCheck, {
       exit: function(code, stdout) {
         if (code === 0) {
-          res.reply('Server running as process: ' + stdout);
+          res.reply('The server is running. Game on!');
         }
         if (code === 1) {
           res.reply('Sever is not running.');
@@ -108,5 +103,7 @@ module.exports = function(robot) {
         res.repy(stderr);
       }
     }).start();
+
   });
+
 };
