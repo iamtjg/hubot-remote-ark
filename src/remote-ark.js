@@ -8,7 +8,7 @@ var sshOptions = {
   user: process.env.SSHUSER,
   pass: process.env.SSHPASS,
   port: process.env.SSHPORT || 22
-}
+};
 
 
 
