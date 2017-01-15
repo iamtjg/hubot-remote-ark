@@ -1,3 +1,29 @@
+// Description:
+//   Control you Linux based ARk server
+//
+// Dependencies:
+//   "simple-ssh": "^0.9.0"
+//
+// Configuration:
+//   SSHHOST
+//   SSHUSER
+//   SSHPASS
+//   SSHPORT
+//   ARKSTARTSCRIPT
+//   ARKPROCESSNAME
+//
+// Commands:
+//   hubot ark start - starts the ark server
+//   hubot ark stop - stops the ark server
+//   hubot ark status - responds with if the serer is already up or not
+//
+// Notes:
+//   This hubot script requires you have to have startup and update shell scripts on your server
+//   Example startup scripts are provided in the example_scripts directory
+//
+// Author:
+//   iamtjg
+
 /**
 *  Remotely control your ARK server over SSH using Hubot
 */
