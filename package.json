@@ -1,6 +1,6 @@
 {
   "name": "hubot-remote-ark",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "iamtjg",
   "description": "Control your ARK server remotely using GitHub's Hubot",
   "repository": {
